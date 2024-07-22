@@ -1,6 +1,6 @@
 now=$(date "+%Y-%m-%d %H:%M:%S")
-echo "Change Directory to D:/project/laravel/laravel"
-cd D:/project/laravel/laravel
+echo "Change Directory to E:/Project/LaravelTest/LaravelTest"
+cd E:/Project/LaravelTest/LaravelTest
 echo "开始add-commit-pull-push流程"
 git add .
 git commit -m "LaravelTest ver.$now"
