@@ -1,25 +1,65 @@
 <?php
 
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
+
+// 闭包：function
+
+//        方法 地址   返回值
+// Route::get($uri, $callback)
+// get
+// post提交
+// put
+// patch
+// delete
+// options
 
 Route::get('/', function ($id = '', $name = '') {
     # return view('welcome');
-    echo 'test<br>';
+    echo 'test,当前访问的地址是根目录<br>';
     echo '当前用户的id是：'.request('id').', 名称是：'.request('name');
 });
 
-// function回调
+// $callback————function（函数）回调
 Route::get('/home', function () {
-    echo 'test2';
+    echo 'test/home,当前访问的地址是/home';
 }) ->name('home');
+// ->是别名
 
 Route::get('/1', function () {
-    echo '1';
+    echo 'test/1,当前访问的地址是/1';
 }) ->name('1');
 
-// Route::match(['get','post'], function () {
+// 响应多个请求，通过match方法实现，或者用any响应所有请求
+// match方法，这里代表匹配get和post请求
+Route::match(['get','post'], '/match', function () {
+    echo 'test/match, 当前访问的地址是/match';
+}) ->name('match');
+// any方法，表示匹配任意请求方式的路由
+Route::any('/any', function () {
+    echo 'test/any, 当前访问的地址是/any';
+}) ->name('any');
 
-// });
+//
+// 路由参数：给路由传递的参数，通过路由地址中的{参数名}传递
+// 分为必选和可选
+// 
+
+// 必选参数
+Route::get('/parameter/id/{id}', function ($id = 0) {
+    echo 'test/parameter/id/{id}, 当前访问的地址是/parameter/{id}，参数是：' . $id;
+}) ->name('parameterid');
+
+// 可选
+Route::get('/parameter/ifid/{id?}', function ($id = 0) {
+    echo 'test/parameter/ifid/{id?}, 当前访问的地址是/parameter/{id?}，参数是' . ($id > 0? $id : '无参数');
+}) ->name('parameterifid');
+
+// 简化
+Route::get('/parameter', function ($id = 0) {
+    echo 'test/parameter, 当前访问的地址是/parameter, 参数是' . $_GET['id'];
+}) ->name('parameter');
+
 
 Route::group(['prefix'=>'admin'], function () {
     Route::get('/login', function () {
@@ -47,3 +87,8 @@ Route::get('/user/show',function($id = '', $name = ''){
 Route::get('/user/show/{id}/{name}', function($id, $name){
     echo '当前用户的id是：'.$id.', 名称是：'.$name;
 });
+
+// Route::get('/sitemap', [SitemapController::class, 'index']);
+// Route::get('/sitemap/posts', [SitemapController::class,'posts']);
+// Route::get('/sitemap/categories', [SitemapController::class,'categories']);
+// Route::get('/sitemap/podcasts', [SitemapController::class,'podcasts']);
