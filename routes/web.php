@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\DBController;
 
 // 闭包：function
 
@@ -88,7 +90,24 @@ Route::get('/user/show/{id}/{name}', function($id, $name){
     echo '当前用户的id是：'.$id.', 名称是：'.$name;
 });
 
+// 测试路由
+Route::get('/home/testcontraller', 'TestController@index');
+
 // Route::get('/sitemap', [SitemapController::class, 'index']);
 // Route::get('/sitemap/posts', [SitemapController::class,'posts']);
 // Route::get('/sitemap/categories', [SitemapController::class,'categories']);
 // Route::get('/sitemap/podcasts', [SitemapController::class,'podcasts']);
+
+
+// 数据库增删改查
+Route::group(['prefix'=> '/home/db'], function () {
+    Route::get('add', [DBController::class, 'add']);
+
+    Route::get('delete', [DBController::class, 'delete']);
+
+    Route::get('update', [DBController::class, 'update']);
+    Route::get('increment', [DBController::class,'increment']);
+    Route::get('decrement', [DBController::class,'decrement']);
+
+    Route::get('select', [DBController::class, 'select']);
+});
